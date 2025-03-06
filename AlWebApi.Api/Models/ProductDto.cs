@@ -11,7 +11,7 @@ namespace AlWebApi.Api.Models
         /// Product Id.
         /// </summary>
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name of the product.

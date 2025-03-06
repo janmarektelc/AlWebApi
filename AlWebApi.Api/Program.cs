@@ -1,4 +1,6 @@
-
+using AlWebApi.Api.DbContexts;
+using AlWebApi.Api.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
@@ -13,7 +15,7 @@ namespace AlWebApi.Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().ConfigureApiBehaviorOptions(opt => opt.SuppressMapClientErrors = true);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,6 +31,13 @@ namespace AlWebApi.Api
                 });
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+
+            builder.Services.AddDbContext<MainDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MainDbConnection"));
+            });
+            builder.Services.AddTransient<MainDbRepository>();
 
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
@@ -54,6 +63,16 @@ namespace AlWebApi.Api
 
 
             app.MapControllers();
+
+            // Create the database if it doesn't exist, and apply any pending migrations
+            using (IServiceScope serviceScope = app.Services.GetService<IServiceScopeFactory>()!.CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetRequiredService<MainDbContext>())
+                {
+                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
+                }
+            }
 
             app.Run();
         }

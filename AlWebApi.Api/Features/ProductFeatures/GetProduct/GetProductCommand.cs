@@ -5,9 +5,9 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProduct
 {
     public class GetProductCommand : IRequest<ProductDto?>
     {
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
-        public GetProductCommand(Guid productId)
+        public GetProductCommand(int productId)
         {
             ArgumentNullException.ThrowIfNull(productId);
             ProductId = productId;

@@ -51,7 +51,7 @@ namespace AlWebApi.Api.Controllers.V1
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> GetProduct(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProductDto>> GetProduct(int id, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API get product for id {id} called.");
             var product = await mediator.Send(new GetProductCommand(id), cancellationToken);
@@ -73,7 +73,7 @@ namespace AlWebApi.Api.Controllers.V1
         [HttpPatch("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> UpdateProduct(Guid id, [FromBody] string description, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProductDto>> UpdateProduct(int id, [FromBody] string description, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API update product with id {id} called.");
             var product = await mediator.Send(new UpdateProductCommand(id, description), cancellationToken);
