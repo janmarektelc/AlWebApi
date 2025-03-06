@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlWebApi.Api", "AlWebApi.Api\AlWebApi.Api.csproj", "{C4D36BF2-DEA1-42DB-AF94-5EBACE4EE612}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlWebApi.Tests", "AlWebApi.Tests\AlWebApi.Tests.csproj", "{8D60F315-596E-4B60-AF49-6CE8FE62E7CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4D36BF2-DEA1-42DB-AF94-5EBACE4EE612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D36BF2-DEA1-42DB-AF94-5EBACE4EE612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D36BF2-DEA1-42DB-AF94-5EBACE4EE612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D36BF2-DEA1-42DB-AF94-5EBACE4EE612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D60F315-596E-4B60-AF49-6CE8FE62E7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D60F315-596E-4B60-AF49-6CE8FE62E7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D60F315-596E-4B60-AF49-6CE8FE62E7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D60F315-596E-4B60-AF49-6CE8FE62E7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57B35150-C00A-48DD-9ABA-D6E3D0D040B4}
+	EndGlobalSection
+EndGlobal
