@@ -1,6 +1,4 @@
 
-using AlTest;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;

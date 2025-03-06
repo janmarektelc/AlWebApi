@@ -1,4 +1,4 @@
-﻿using AlTest.Models;
+﻿using AlWebApi.Api.Models;
 using MediatR;
 
 namespace AlWebApi.Api.Feature.ProductFeatures.GetProducts

@@ -1,8 +1,8 @@
-﻿using AlTest.Controllers.V1;
-using AlTest.Models;
+﻿using AlWebApi.Api.Controllers.V1;
 using AlWebApi.Api.Feature.ProductFeatures.GetProduct;
 using AlWebApi.Api.Feature.ProductFeatures.GetProducts;
 using AlWebApi.Api.Feature.ProductFeatures.UpdateProduct;
+using AlWebApi.Api.Models;
 using FakeItEasy;
 using FluentAssertions;
 using MediatR;

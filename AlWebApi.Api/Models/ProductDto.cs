@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlTest.Models
+namespace AlWebApi.Api.Models
 {
     /// <summary>
     /// Product dto.

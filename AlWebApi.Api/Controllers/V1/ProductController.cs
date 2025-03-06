@@ -1,12 +1,12 @@
-﻿using AlTest.Models;
-using AlWebApi.Api.Feature.ProductFeatures.GetProduct;
+﻿using AlWebApi.Api.Feature.ProductFeatures.GetProduct;
 using AlWebApi.Api.Feature.ProductFeatures.GetProducts;
 using AlWebApi.Api.Feature.ProductFeatures.UpdateProduct;
+using AlWebApi.Api.Models;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlTest.Controllers.V1
+namespace AlWebApi.Api.Controllers.V1
 {
     /// <summary>
     /// Product controller.
