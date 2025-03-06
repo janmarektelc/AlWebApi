@@ -1,5 +1,9 @@
 ﻿using AlTest.Models;
+using AlWebApi.Api.Feature.ProductFeatures.GetProduct;
+using AlWebApi.Api.Feature.ProductFeatures.GetProducts;
+using AlWebApi.Api.Feature.ProductFeatures.UpdateProduct;
 using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlTest.Controllers.V1
@@ -13,10 +17,12 @@ namespace AlTest.Controllers.V1
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> logger;
+        private readonly IMediator mediator;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IMediator mediator)
         {
             this.logger = logger;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -26,10 +32,9 @@ namespace AlTest.Controllers.V1
         [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<ProductDto>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(CancellationToken cancellationToken)
         {
-            logger.LogInformation("Get all product called.");
-            var products = new []{ new ProductDto { Id = Guid.NewGuid(), Price = 10, Name = "product1", ImgUrl = "url" } };
+            var products = await mediator.Send(new GetProductsCommand(), cancellationToken);
 
             return Ok(products);
         }
@@ -42,10 +47,10 @@ namespace AlTest.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ProductDto> GetProducts(Guid id)
+        public async Task<ActionResult<ProductDto>> GetProduct(Guid id, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"Get product for id {id} called.");
-            var product = new ProductDto { Id =id, Price = 10, Name = "product1", ImgUrl = "url" };
+            logger.LogInformation($"API get product for id {id} called.");
+            var product = await mediator.Send(new GetProductCommand(id), cancellationToken);
 
             return Ok(product);
         }
@@ -60,10 +65,10 @@ namespace AlTest.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ProductDto> UpdateProduct(Guid id, [FromBody] string description)
+        public async Task<ActionResult<ProductDto>> UpdateProduct(Guid id, [FromBody] string description, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Update product called.");
-            var product = new ProductDto { Id = id, Price = 10, Name = "product1", ImgUrl = "url", Description = description };
+            logger.LogInformation($"API update product with id {id} called.");
+            var product = await mediator.Send(new UpdateProductCommand(id, description), cancellationToken);
 
             return Ok(product);
         }

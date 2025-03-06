@@ -1,7 +1,9 @@
 
 using AlTest;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace AlWebApi.Api
 {
@@ -27,6 +29,8 @@ namespace AlWebApi.Api
                 {
                     options.SubstituteApiVersionInUrl = true;
                 });
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
