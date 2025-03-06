@@ -1,6 +1,6 @@
-﻿using AlWebApi.Api.Feature.ProductFeatures.GetProduct;
-using AlWebApi.Api.Feature.ProductFeatures.GetProducts;
-using AlWebApi.Api.Feature.ProductFeatures.UpdateProduct;
+﻿using AlWebApi.Api.Features.ProductFeatures.GetProduct;
+using AlWebApi.Api.Features.ProductFeatures.GetProducts;
+using AlWebApi.Api.Features.ProductFeatures.UpdateProduct;
 using AlWebApi.Api.Models;
 using Asp.Versioning;
 using MediatR;

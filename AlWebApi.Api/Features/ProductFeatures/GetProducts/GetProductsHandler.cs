@@ -1,7 +1,7 @@
 ﻿using AlWebApi.Api.Models;
 using MediatR;
 
-namespace AlWebApi.Api.Feature.ProductFeatures.GetProducts
+namespace AlWebApi.Api.Features.ProductFeatures.GetProducts
 {
     public class GetProductsHandler : IRequestHandler<GetProductsCommand, IEnumerable<ProductDto>?>
     {
