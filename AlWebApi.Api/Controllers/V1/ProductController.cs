@@ -31,10 +31,15 @@ namespace AlTest.Controllers.V1
         /// <returns>Returns all products.</returns>
         [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(CancellationToken cancellationToken)
         {
             var products = await mediator.Send(new GetProductsCommand(), cancellationToken);
+
+            if (products == null)
+            {
+                return NotFound();
+            }
 
             return Ok(products);
         }
@@ -45,12 +50,16 @@ namespace AlTest.Controllers.V1
         /// <returns>Returns product by id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> GetProduct(Guid id, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API get product for id {id} called.");
             var product = await mediator.Send(new GetProductCommand(id), cancellationToken);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             return Ok(product);
         }
@@ -63,12 +72,16 @@ namespace AlTest.Controllers.V1
         /// <returns>Returns updated product.</returns>
         [HttpPatch("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> UpdateProduct(Guid id, [FromBody] string description, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API update product with id {id} called.");
             var product = await mediator.Send(new UpdateProductCommand(id, description), cancellationToken);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             return Ok(product);
         }

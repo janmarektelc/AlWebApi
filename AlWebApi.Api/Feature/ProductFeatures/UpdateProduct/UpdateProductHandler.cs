@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AlWebApi.Api.Feature.ProductFeatures.UpdateProduct
 {
-    public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, ProductDto>
+    public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, ProductDto?>
     {
         private readonly ILogger<UpdateProductHandler> logger;
 
@@ -12,7 +12,7 @@ namespace AlWebApi.Api.Feature.ProductFeatures.UpdateProduct
             this.logger = logger;
         }
 
-        public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductDto?> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API update product with id {request.ProductId} called.");
             var product = new ProductDto { Id = request.ProductId, Price = 10, Name = "product1", ImgUrl = "url", Description = request.Description };

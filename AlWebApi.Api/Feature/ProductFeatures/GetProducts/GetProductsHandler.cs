@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AlWebApi.Api.Feature.ProductFeatures.GetProducts
 {
-    public class GetProductsHandler : IRequestHandler<GetProductsCommand, IEnumerable<ProductDto>>
+    public class GetProductsHandler : IRequestHandler<GetProductsCommand, IEnumerable<ProductDto>?>
     {
         private readonly ILogger<GetProductsHandler> logger;
 
@@ -12,7 +12,7 @@ namespace AlWebApi.Api.Feature.ProductFeatures.GetProducts
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<ProductDto>> Handle(GetProductsCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductDto>?> Handle(GetProductsCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation("Entered handler for get all products.");
             var products = new[] 

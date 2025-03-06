@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AlWebApi.Api.Feature.ProductFeatures.UpdateProduct
 {
-    public class UpdateProductCommand : IRequest<ProductDto>
+    public class UpdateProductCommand : IRequest<ProductDto?>
     {
         public Guid ProductId { get; set; }
         public string? Description { get; set; }
