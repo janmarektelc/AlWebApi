@@ -44,10 +44,28 @@ namespace AlTest.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ProductDto> GetProducts(Guid id)
         {
-            logger.LogInformation("Get all product called.");
-            var products = new ProductDto { Id =id, Price = 10, Name = "product1", ImgUrl = "url" };
+            logger.LogInformation($"Get product for id {id} called.");
+            var product = new ProductDto { Id =id, Price = 10, Name = "product1", ImgUrl = "url" };
 
-            return Ok(products);
+            return Ok(product);
+        }
+
+        /// <summary>
+        /// Update product description.
+        /// </summary>
+        /// <param name="id">Product id.</param>
+        /// <param name="description">New description.</param>
+        /// <returns>Returns updated product.</returns>
+        [HttpPatch("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ProductDto> UpdateProduct(Guid id, [FromBody] string description)
+        {
+            logger.LogInformation("Update product called.");
+            var product = new ProductDto { Id = id, Price = 10, Name = "product1", ImgUrl = "url", Description = description };
+
+            return Ok(product);
         }
     }
 }
