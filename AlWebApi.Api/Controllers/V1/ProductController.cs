@@ -19,6 +19,11 @@ namespace AlWebApi.Api.Controllers.V1
         private readonly ILogger<ProductController> logger;
         private readonly IMediator mediator;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="mediator">Mediator.</param>
         public ProductController(ILogger<ProductController> logger, IMediator mediator)
         {
             this.logger = logger;
@@ -65,18 +70,17 @@ namespace AlWebApi.Api.Controllers.V1
         }
 
         /// <summary>
-        /// Update product description.
+        /// Update product.
         /// </summary>
-        /// <param name="id">Product id.</param>
-        /// <param name="description">New description.</param>
-        /// <returns>Returns updated product.</returns>
-        [HttpPatch("{id:guid}")]
+        /// <param name="updateProductDto">Data object with changes.</param>
+        /// <returns>Returns updated product.</returns>        
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> UpdateProduct(int id, [FromBody] string description, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProductDto>> UpdateProduct([FromBody] UpdateProductDto updateProductDto, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"API update product with id {id} called.");
-            var product = await mediator.Send(new UpdateProductCommand(id, description), cancellationToken);
+            logger.LogInformation($"API update product with id {updateProductDto.Id} called.");
+            var product = await mediator.Send(new UpdateProductCommand(updateProductDto.Id, updateProductDto.Description), cancellationToken);
 
             if (product == null)
             {

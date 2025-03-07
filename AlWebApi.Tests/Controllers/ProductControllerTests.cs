@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace AlWebApi.Tests.Controllers
 {
     [TestClass]
+    [TestCategory("Controllers")]
     public class ProductControllerTests
     {
         private readonly IMediator mediator;
@@ -53,7 +54,7 @@ namespace AlWebApi.Tests.Controllers
         [TestMethod]
         public async Task GetProductHandlerCallTest()
         {
-            var actionResult = await controller.GetProduct(Guid.NewGuid(), default);
+            var actionResult = await controller.GetProduct(1, default);
 
             A.CallTo(() => mediator.Send(A<GetProductCommand>._, default)).MustHaveHappenedOnceExactly();
             actionResult.Should().NotBeNull();
@@ -68,7 +69,7 @@ namespace AlWebApi.Tests.Controllers
         {
             A.CallTo(() => mediator.Send(A<GetProductCommand>._, default)).Returns<ProductDto?>(null);
 
-            var actionResult = await controller.GetProduct(Guid.NewGuid(), default);
+            var actionResult = await controller.GetProduct(1, default);
             actionResult.Should().NotBeNull();
 
             var result = actionResult.Result as NotFoundResult;
@@ -79,7 +80,7 @@ namespace AlWebApi.Tests.Controllers
         [TestMethod]
         public async Task UpdateProductHandlerCallTest()
         {
-            var actionResult = await controller.UpdateProduct(Guid.NewGuid(), "new testing description", default);
+            var actionResult = await controller.UpdateProduct(new UpdateProductDto { Id = 1, Description = "new testing description" }, default);
 
             A.CallTo(() => mediator.Send(A<UpdateProductCommand>._, default)).MustHaveHappenedOnceExactly();
             actionResult.Should().NotBeNull();
@@ -94,7 +95,7 @@ namespace AlWebApi.Tests.Controllers
         {
             A.CallTo(() => mediator.Send(A<UpdateProductCommand>._, default)).Returns<ProductDto?>(null);
 
-            var actionResult = await controller.UpdateProduct(Guid.NewGuid(), "new testing description", default);
+            var actionResult = await controller.UpdateProduct(new UpdateProductDto { Id = 1, Description = "new testing description" }, default);
             actionResult.Should().NotBeNull();
 
             var result = actionResult.Result as NotFoundResult;

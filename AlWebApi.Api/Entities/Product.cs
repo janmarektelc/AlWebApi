@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace AlWebApi.Api.Entities
 {
@@ -26,6 +27,7 @@ namespace AlWebApi.Api.Entities
         /// Price of the product.
         /// </summary>
         [Required]
+        [Precision(18, 2)]
         public decimal Price { get; set; }
 
         /// <summary>

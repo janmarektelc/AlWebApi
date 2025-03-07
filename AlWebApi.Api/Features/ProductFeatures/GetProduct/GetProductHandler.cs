@@ -1,4 +1,6 @@
-﻿using AlWebApi.Api.Models;
+﻿using AlWebApi.Api.Helpers;
+using AlWebApi.Api.Interfaces;
+using AlWebApi.Api.Models;
 using MediatR;
 
 namespace AlWebApi.Api.Features.ProductFeatures.GetProduct
@@ -6,18 +8,28 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProduct
     public class GetProductHandler : IRequestHandler<GetProductCommand, ProductDto?>
     {
         private readonly ILogger<GetProductHandler> logger;
+        private readonly IMainDbRepository mainRepository;
 
-        public GetProductHandler(ILogger<GetProductHandler> logger)
+        public GetProductHandler(ILogger<GetProductHandler> logger, IMainDbRepository mainRepository)
         {
             this.logger = logger;
+            this.mainRepository = mainRepository;
         }
 
         public async Task<ProductDto?> Handle(GetProductCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation($"Entered handler for get product with id {request.ProductId}.");
-            var product = new ProductDto { Id = request.ProductId, Price = 10, Name = "product1", ImgUrl = "url" };
+            var product = await mainRepository.GetProductById(request.ProductId, cancellationToken);
+            if (product == null)
+            {
+                logger.LogInformation($"Product with id {request.ProductId} not found.");
+            }
+            else
+            {
+                logger.LogInformation($"Product with id {request.ProductId} loaded.");
+            }
 
-            return await Task.FromResult(product);
+            return product != null ? Mapper.MapProductToProductDto(product) : null;
         }
     }
 }

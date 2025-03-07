@@ -1,4 +1,6 @@
-﻿using AlWebApi.Api.Models;
+﻿using AlWebApi.Api.Helpers;
+using AlWebApi.Api.Interfaces;
+using AlWebApi.Api.Models;
 using MediatR;
 
 namespace AlWebApi.Api.Features.ProductFeatures.UpdateProduct
@@ -6,19 +8,26 @@ namespace AlWebApi.Api.Features.ProductFeatures.UpdateProduct
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, ProductDto?>
     {
         private readonly ILogger<UpdateProductHandler> logger;
+        private readonly IMainDbRepository mainRepository;
 
-        public UpdateProductHandler(ILogger<UpdateProductHandler> logger)
+        public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IMainDbRepository mainRepository)
         {
             this.logger = logger;
+            this.mainRepository = mainRepository;
         }
 
         public async Task<ProductDto?> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API update product with id {request.ProductId} called.");
-            var product = new ProductDto { Id = request.ProductId, Price = 10, Name = "product1", ImgUrl = "url", Description = request.Description };
+            var product = await mainRepository.UpdateProductDescription(request.ProductId, request.Description, cancellationToken); 
+            if (product == null)
+            {
+                logger.LogInformation($"Product with id {request.ProductId} not found.");
+                return null;
+            }
             logger.LogInformation($"Product with id {product.Id} - updated description to {product.Description}");
 
-            return await Task.FromResult(product);
+            return Mapper.MapProductToProductDto(product);
         }
     }
 }

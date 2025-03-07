@@ -1,6 +1,6 @@
-﻿using AlWebApi.Api.Entities;
+﻿using AlWebApi.Api.Helpers;
+using AlWebApi.Api.Interfaces;
 using AlWebApi.Api.Models;
-using AlWebApi.Api.Repositories;
 using MediatR;
 
 namespace AlWebApi.Api.Features.ProductFeatures.GetProducts
@@ -8,9 +8,9 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProducts
     public class GetProductsHandler : IRequestHandler<GetProductsCommand, IEnumerable<ProductDto>?>
     {
         private readonly ILogger<GetProductsHandler> logger;
-        private readonly MainDbRepository mainRepository;
+        private readonly IMainDbRepository mainRepository;
 
-        public GetProductsHandler(ILogger<GetProductsHandler> logger, MainDbRepository mainRepository)
+        public GetProductsHandler(ILogger<GetProductsHandler> logger, IMainDbRepository mainRepository)
         {
             this.logger = logger;
             this.mainRepository = mainRepository;
@@ -20,9 +20,16 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProducts
         {
             logger.LogInformation("Entered handler for get all products.");
             var products = await mainRepository.GetProducts(cancellationToken);
-            logger.LogInformation($"Loaded {products.Count()} products from database.");
+            if (products == null || products.Count() == 0)
+            {
+                logger.LogInformation($"There is no product in database.");
+            }
+            else
+            {
+                logger.LogInformation($"Loaded {products.Count()} products from database.");
+            }
 
-            return products.Select(p => new ProductDto {Id = p.Id, Name = p.Name, Description = p.Description, ImgUrl = p.ImgUrl, Price = p.Price});
+            return products != null ? Mapper.MapProductsToProductDtos(products) : null;
         }
     }
 }

@@ -1,4 +1,6 @@
 using AlWebApi.Api.DbContexts;
+using AlWebApi.Api.Helpers;
+using AlWebApi.Api.Interfaces;
 using AlWebApi.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,6 +14,7 @@ namespace AlWebApi.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var useMockData = builder.Configuration.GetValue<bool>("UseMockData");
 
             // Add services to the container.
 
@@ -32,12 +35,19 @@ namespace AlWebApi.Api
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-
-            builder.Services.AddDbContext<MainDbContext>(options =>
+            if (useMockData)
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MainDbConnection"));
-            });
-            builder.Services.AddTransient<MainDbRepository>();
+                builder.Services.AddSingleton<IMainDbRepository, MainDbRepositoryMock>();
+            }
+            else
+            {
+                builder.Services.AddDbContext<MainDbContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("MainDbConnection"));
+                });
+                builder.Services.AddTransient<IMainDbRepository, MainDbRepository>();
+                builder.Services.AddTransient<DbInitialiser>();
+            }
 
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
@@ -57,20 +67,18 @@ namespace AlWebApi.Api
                 });
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
+            //app.UseAuthorization();
 
             app.MapControllers();
 
-            // Create the database if it doesn't exist, and apply any pending migrations
-            using (IServiceScope serviceScope = app.Services.GetService<IServiceScopeFactory>()!.CreateScope())
+            if (!useMockData)
             {
-                using (var context = serviceScope.ServiceProvider.GetRequiredService<MainDbContext>())
+                // Create the database if it doesn't exist, and seed data if it's empty.
+                using (var scope = app.Services.CreateScope())
                 {
-                    context.Database.EnsureCreated();
-                    context.Database.Migrate();
+                    var initialiser = scope.ServiceProvider.GetRequiredService<DbInitialiser>();
+                    initialiser.UpdateDb().Wait();
+                    initialiser.Seed().Wait();
                 }
             }
 
