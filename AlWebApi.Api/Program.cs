@@ -11,22 +11,30 @@ namespace AlWebApi.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             var useMockData = builder.Configuration.GetValue<bool>("UseMockData");
 
-            // Add services to the container.
+            ConfigureBuilder(builder, useMockData);
+            var app = builder.Build();
 
+            await ConfigureApp(app, useMockData);
+            app.Run();
+        }
+
+        private static void ConfigureBuilder(WebApplicationBuilder builder, bool useMockData)
+        {
+            // Add services to the container.
             builder.Services.AddControllers().ConfigureApiBehaviorOptions(opt => opt.SuppressMapClientErrors = true);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddApiVersioning(options =>
-                {
-                    options.ReportApiVersions = true;
-                })
+            {
+                options.ReportApiVersions = true;
+            })
                 .AddApiExplorer(
                 options =>
                 {
@@ -50,9 +58,10 @@ namespace AlWebApi.Api
             }
 
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        }
 
-            var app = builder.Build();
-
+        private static async Task ConfigureApp(WebApplication app, bool useMockData)
+        {
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -77,12 +86,11 @@ namespace AlWebApi.Api
                 using (var scope = app.Services.CreateScope())
                 {
                     var initialiser = scope.ServiceProvider.GetRequiredService<DbInitialiser>();
-                    initialiser.UpdateDb().Wait();
-                    initialiser.Seed().Wait();
+                    await initialiser.UpdateDb();
+                    await initialiser.Seed();
                 }
             }
-
-            app.Run();
         }
+
     }
 }
