@@ -3,20 +3,20 @@ using AlWebApi.Api.Interfaces;
 using AlWebApi.Api.Models;
 using MediatR;
 
-namespace AlWebApi.Api.Features.ProductFeatures.UpdateProduct
+namespace AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription
 {
-    public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, ProductDto?>
+    public class UpdateProductDescriptionHandler : IRequestHandler<UpdateProductDescriptionCommand, ProductDto?>
     {
-        private readonly ILogger<UpdateProductHandler> logger;
+        private readonly ILogger<UpdateProductDescriptionHandler> logger;
         private readonly IMainDbRepository mainRepository;
 
-        public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IMainDbRepository mainRepository)
+        public UpdateProductDescriptionHandler(ILogger<UpdateProductDescriptionHandler> logger, IMainDbRepository mainRepository)
         {
             this.logger = logger;
             this.mainRepository = mainRepository;
         }
 
-        public async Task<ProductDto?> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductDto?> Handle(UpdateProductDescriptionCommand request, CancellationToken cancellationToken)
         {
             logger.LogInformation($"API update product with id {request.ProductId} called.");
             var product = await mainRepository.UpdateProductDescription(request.ProductId, request.Description, cancellationToken); 

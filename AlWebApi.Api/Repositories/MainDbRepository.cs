@@ -1,5 +1,6 @@
 ﻿using AlWebApi.Api.DbContexts;
 using AlWebApi.Api.Entities;
+using AlWebApi.Api.Helpers;
 using AlWebApi.Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,20 @@ namespace AlWebApi.Api.Repositories
         public async Task<IEnumerable<Product>> GetProducts(CancellationToken cancellationToken)
         {
             return await this.DbContext.Products.ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets products from the database with pagination.
+        /// </summary>
+        /// <param name="pageNumber">Page number.</param>
+        /// <param name="pageSize">Page size.</param>
+        /// <param name="cancellationToken">Cancelation token.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Product>> GetProducts(uint pageNumber, uint pageSize, CancellationToken cancellationToken)
+        {
+            PagingHelper.ValidateProductPageNumberAndPageSize(pageNumber, pageSize);
+
+            return await this.DbContext.Products.Skip((int)((pageNumber - 1) * pageSize)).Take((int)pageSize).ToListAsync(cancellationToken);
         }
 
         /// <summary>

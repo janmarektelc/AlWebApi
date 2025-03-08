@@ -1,7 +1,8 @@
 ﻿using AlWebApi.Api.Entities;
+using AlWebApi.Api.Helpers;
 using AlWebApi.Api.Interfaces;
 
-namespace AlWebApi.Api.DbContexts
+namespace AlWebApi.Api.Repositories
 {
     /// <summary>
     /// Fake implementation of the main database repository.
@@ -32,6 +33,20 @@ namespace AlWebApi.Api.DbContexts
         /// <param name="cancellationToken">Cancelation token.</param>
         /// <returns>Returns all products.</returns>
         public Task<IEnumerable<Product>> GetProducts(CancellationToken cancellationToken) => Task.FromResult<IEnumerable<Product>>(products);
+
+        /// <summary>
+        /// Gets products from the database with pagination.
+        /// </summary>
+        /// <param name="pageNumber">Page number.</param>
+        /// <param name="pageSize">Page size.</param>
+        /// <param name="cancellationToken">Cancelation token.</param>
+        /// <returns></returns>
+        public Task<IEnumerable<Product>> GetProducts(uint pageNumber, uint pageSize, CancellationToken cancellationToken)
+        {
+            PagingHelper.ValidateProductPageNumberAndPageSize(pageNumber, pageSize);
+
+            return Task.FromResult(products.Skip((int)((pageNumber - 1) * pageSize)).Take((int)pageSize));
+        }
 
         /// <summary>
         /// Updates a product in the database.

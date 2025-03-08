@@ -9,7 +9,7 @@ This application is a simple Web API application built using C#, ASP.NET Core, E
 Before you can run the application, you need to have the following software installed:
 
 * **.NET SDK:** Ensure you have the .NET SDK (Software Development Kit) installed. Version 8.0 or later is recommended. You can download it from the official [.NET website](https://dotnet.microsoft.com/download).
-* **MSSQL Server:** You need an instance of Microsoft SQL Server running. This can be a local installation, a cloud-based instance, or a Docker container. You can also use just mock data by setting flag **UseMockData** in this configuration file.
+* **MSSQL Server:** You need an instance of Microsoft SQL Server running. This can be a local installation, a cloud-based instance, or a Docker container. You can also use just mock data by setting flag **UseMockData** in the configuration file.
 * **Code Editor/IDE:** A code editor or Integrated Development Environment (IDE) is needed to work with the source code. Visual Studio, Visual Studio Code, or JetBrains Rider are popular choices.
 * **Git (Optional):** If you intend to clone the repository from a Git hosting service, you'll need Git installed. You can download it from [git-scm.com](https://git-scm.com/downloads).
 

@@ -1,5 +1,5 @@
-﻿using AlWebApi.Api.DbContexts;
-using AlWebApi.Api.Features.ProductFeatures.GetProduct;
+﻿using AlWebApi.Api.Features.ProductFeatures.GetProduct;
+using AlWebApi.Api.Repositories;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

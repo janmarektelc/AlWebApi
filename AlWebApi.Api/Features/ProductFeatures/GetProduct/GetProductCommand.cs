@@ -9,7 +9,6 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProduct
 
         public GetProductCommand(int productId)
         {
-            ArgumentNullException.ThrowIfNull(productId);
             ProductId = productId;
         }
     }

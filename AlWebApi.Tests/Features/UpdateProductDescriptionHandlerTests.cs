@@ -1,6 +1,6 @@
-﻿using AlWebApi.Api.DbContexts;
-using AlWebApi.Api.Features.ProductFeatures.UpdateProduct;
+﻿using AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription;
 using AlWebApi.Api.Interfaces;
+using AlWebApi.Api.Repositories;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -9,15 +9,15 @@ namespace AlWebApi.Tests.Features
 {
     [TestClass]
     [TestCategory("Features")]
-    public class UpdateProductHandlerTests
+    public class UpdateProductDescriptionHandlerTests
     {
-        private readonly UpdateProductHandler handler;
+        private readonly UpdateProductDescriptionHandler handler;
         private readonly IMainDbRepository mainRepository;
 
-        public UpdateProductHandlerTests()
+        public UpdateProductDescriptionHandlerTests()
         {
             mainRepository = new MainDbRepositoryMock();
-            handler = new UpdateProductHandler(A.Fake<ILogger<UpdateProductHandler>>(), mainRepository);
+            handler = new UpdateProductDescriptionHandler(A.Fake<ILogger<UpdateProductDescriptionHandler>>(), mainRepository);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace AlWebApi.Tests.Features
         {
             var productToChangeId = 3;
             var newProductDescription = "New description";
-            var result = await handler.Handle(new UpdateProductCommand(productToChangeId, newProductDescription), default);
+            var result = await handler.Handle(new UpdateProductDescriptionCommand(productToChangeId, newProductDescription), default);
             result.Should().NotBeNull();
             result.Id.Should().Be(3);
             result.Description.Should().Be(newProductDescription);
@@ -39,7 +39,7 @@ namespace AlWebApi.Tests.Features
         public async Task UpdateProductHandlerTestNoDescription()
         {
             var productToChangeId = 3;
-            var result = await handler.Handle(new UpdateProductCommand(productToChangeId, null), default);
+            var result = await handler.Handle(new UpdateProductDescriptionCommand(productToChangeId, null), default);
             result.Should().NotBeNull();
             result.Id.Should().Be(3);
             result.Description.Should().Be(null);
@@ -52,7 +52,7 @@ namespace AlWebApi.Tests.Features
         [TestMethod]
         public async Task UpdateProductHandlerTestNotFound()
         {
-            var result = await handler.Handle(new UpdateProductCommand(int.MaxValue, "New description"), default);
+            var result = await handler.Handle(new UpdateProductDescriptionCommand(int.MaxValue, "New description"), default);
             result.Should().BeNull();
         }
     }

@@ -1,18 +1,18 @@
 ﻿using AlWebApi.Api.Features.ProductFeatures.GetProduct;
-using AlWebApi.Api.Features.ProductFeatures.GetProducts;
+using AlWebApi.Api.Features.ProductFeatures.GetProductsPagged;
 using AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription;
 using AlWebApi.Api.Models;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlWebApi.Api.Controllers.V1
+namespace AlWebApi.Api.Controllers.V2
 {
     /// <summary>
     /// Product controller.
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductController : ControllerBase
     {
@@ -37,10 +37,10 @@ namespace AlWebApi.Api.Controllers.V1
         [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] ProductParametersDto parameters, CancellationToken cancellationToken)
         {
-            logger.LogInformation("API v1.0 get all products called.");
-            var products = await mediator.Send(new GetProductsCommand(), cancellationToken);
+            logger.LogInformation($"API v2.0 get all products pagged called.");
+            var products = await mediator.Send(new GetProductsPaggedCommand(parameters.PageNumber, parameters.PageSize), cancellationToken);
 
             if (products == null || !products.Any())
             {
@@ -62,7 +62,7 @@ namespace AlWebApi.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> GetProduct(int id, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"API v1.0 get product for id {id} called.");
+            logger.LogInformation($"API v2.0 get product for id {id} called.");
             var product = await mediator.Send(new GetProductCommand(id), cancellationToken);
 
             if (product == null)
@@ -86,7 +86,7 @@ namespace AlWebApi.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> UpdateProduct([FromBody] UpdateProductDescriptionDto updateProductDto, CancellationToken cancellationToken)
         {
-            logger.LogInformation($"API v1.0 update product with id {updateProductDto.Id} called.");
+            logger.LogInformation($"API v2.0 update product with id {updateProductDto.Id} called.");
             var product = await mediator.Send(new UpdateProductDescriptionCommand(updateProductDto.Id, updateProductDto.Description), cancellationToken);
 
             if (product == null)

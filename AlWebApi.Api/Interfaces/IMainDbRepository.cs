@@ -23,6 +23,15 @@ namespace AlWebApi.Api.Interfaces
         Task<IEnumerable<Product>> GetProducts(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Gets products from the database with pagination.
+        /// </summary>
+        /// <param name="pageNumber">Page number.</param>
+        /// <param name="pageSize">Page size.</param>
+        /// <param name="cancellationToken">Cancelation token.</param>
+        /// <returns></returns>
+        Task<IEnumerable<Product>> GetProducts(uint pageNumber, uint pageSize, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Updates a product in the database.
         /// </summary>
         /// <param name="productId">Product Id.</param>

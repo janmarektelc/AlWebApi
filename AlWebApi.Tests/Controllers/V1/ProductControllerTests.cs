@@ -1,7 +1,7 @@
 ﻿using AlWebApi.Api.Controllers.V1;
 using AlWebApi.Api.Features.ProductFeatures.GetProduct;
 using AlWebApi.Api.Features.ProductFeatures.GetProducts;
-using AlWebApi.Api.Features.ProductFeatures.UpdateProduct;
+using AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription;
 using AlWebApi.Api.Models;
 using FakeItEasy;
 using FluentAssertions;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AlWebApi.Tests.Controllers
+namespace AlWebApi.Tests.Controllers.V1
 {
     [TestClass]
     [TestCategory("Controllers")]
@@ -28,6 +28,8 @@ namespace AlWebApi.Tests.Controllers
         [TestMethod]
         public async Task GetProductsHandlerCallTest()
         {
+            A.CallTo(() => mediator.Send(A<GetProductsCommand>._, default)).Returns([new ProductDto()]);
+
             var actionResult = await controller.GetProducts(default);
 
             A.CallTo(() => mediator.Send(A<GetProductsCommand>._, default)).MustHaveHappenedOnceExactly();
@@ -42,6 +44,19 @@ namespace AlWebApi.Tests.Controllers
         public async Task GetProductsNotFoundTest()
         {
             A.CallTo(() => mediator.Send(A<GetProductsCommand>._, default)).Returns<IEnumerable<ProductDto>?>(null);
+
+            var actionResult = await controller.GetProducts(default);
+            actionResult.Should().NotBeNull();
+
+            var result = actionResult.Result as NotFoundResult;
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+        }
+
+        [TestMethod]
+        public async Task GetProductsNotFoundTestEmptyCollection()
+        {
+            A.CallTo(() => mediator.Send(A<GetProductsCommand>._, default)).Returns([]);
 
             var actionResult = await controller.GetProducts(default);
             actionResult.Should().NotBeNull();
@@ -80,9 +95,9 @@ namespace AlWebApi.Tests.Controllers
         [TestMethod]
         public async Task UpdateProductHandlerCallTest()
         {
-            var actionResult = await controller.UpdateProduct(new UpdateProductDto { Id = 1, Description = "new testing description" }, default);
+            var actionResult = await controller.UpdateProduct(new UpdateProductDescriptionDto { Id = 1, Description = "new testing description" }, default);
 
-            A.CallTo(() => mediator.Send(A<UpdateProductCommand>._, default)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mediator.Send(A<UpdateProductDescriptionCommand>._, default)).MustHaveHappenedOnceExactly();
             actionResult.Should().NotBeNull();
 
             var result = actionResult.Result as ObjectResult;
@@ -93,9 +108,9 @@ namespace AlWebApi.Tests.Controllers
         [TestMethod]
         public async Task UpdateProductNotFoundTest()
         {
-            A.CallTo(() => mediator.Send(A<UpdateProductCommand>._, default)).Returns<ProductDto?>(null);
+            A.CallTo(() => mediator.Send(A<UpdateProductDescriptionCommand>._, default)).Returns<ProductDto?>(null);
 
-            var actionResult = await controller.UpdateProduct(new UpdateProductDto { Id = 1, Description = "new testing description" }, default);
+            var actionResult = await controller.UpdateProduct(new UpdateProductDescriptionDto { Id = 1, Description = "new testing description" }, default);
             actionResult.Should().NotBeNull();
 
             var result = actionResult.Result as NotFoundResult;

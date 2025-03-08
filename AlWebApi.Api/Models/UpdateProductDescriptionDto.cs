@@ -5,7 +5,7 @@ namespace AlWebApi.Api.Models
     /// <summary>
     /// Data transfer object for updating a product.
     /// </summary>
-    public class UpdateProductDto
+    public class UpdateProductDescriptionDto
     {
         /// <summary>
         /// Product Id.
