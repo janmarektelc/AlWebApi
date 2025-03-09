@@ -8,9 +8,9 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProduct
     public class GetProductHandler : IRequestHandler<GetProductCommand, ProductDto?>
     {
         private readonly ILogger<GetProductHandler> logger;
-        private readonly IMainDbRepository mainRepository;
+        private readonly IProductsRepository mainRepository;
 
-        public GetProductHandler(ILogger<GetProductHandler> logger, IMainDbRepository mainRepository)
+        public GetProductHandler(ILogger<GetProductHandler> logger, IProductsRepository mainRepository)
         {
             this.logger = logger;
             this.mainRepository = mainRepository;

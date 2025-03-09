@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore;
 namespace AlWebApi.Api.Repositories
 {
     /// <summary>
-    /// Main database repository.
+    /// Products repository.
     /// </summary>
-    public class MainDbRepository : RepositoryBase<MainDbContext>, IMainDbRepository
+    public class PrudctsRepository : RepositoryBase<MainDbContext>, IProductsRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainDbRepository"/> class.
+        /// Initializes a new instance of the <see cref="PrudctsRepository"/> class.
         /// </summary>
         /// <param name="dbContext">Main database context.</param>
-        public MainDbRepository(MainDbContext dbContext) : base(dbContext)
+        public PrudctsRepository(MainDbContext dbContext) : base(dbContext)
         {
         }
 

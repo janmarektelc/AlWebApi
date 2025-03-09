@@ -12,11 +12,11 @@ namespace AlWebApi.Tests.Features
     public class UpdateProductDescriptionHandlerTests
     {
         private readonly UpdateProductDescriptionHandler handler;
-        private readonly IMainDbRepository mainRepository;
+        private readonly IProductsRepository mainRepository;
 
         public UpdateProductDescriptionHandlerTests()
         {
-            mainRepository = new MainDbRepositoryMock();
+            mainRepository = new ProductsRepositoryMock();
             handler = new UpdateProductDescriptionHandler(A.Fake<ILogger<UpdateProductDescriptionHandler>>(), mainRepository);
         }
 

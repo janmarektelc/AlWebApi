@@ -14,7 +14,7 @@ namespace AlWebApi.Tests.Features
 
         public GetProductHandlerTests()
         {
-            handler = new GetProductHandler(A.Fake<ILogger<GetProductHandler>>(), new MainDbRepositoryMock());
+            handler = new GetProductHandler(A.Fake<ILogger<GetProductHandler>>(), new ProductsRepositoryMock());
         }
 
         [TestMethod]

@@ -5,16 +5,16 @@ using AlWebApi.Api.Interfaces;
 namespace AlWebApi.Api.Repositories
 {
     /// <summary>
-    /// Fake implementation of the main database repository.
+    /// Fake implementation of the products repository.
     /// </summary>
-    public class MainDbRepositoryMock : IMainDbRepository
+    public class ProductsRepositoryMock : IProductsRepository
     {
         private List<Product> products;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainDbRepositoryMock"/> class.
+        /// Initializes a new instance of the <see cref="ProductsRepositoryMock"/> class.
         /// </summary>
-        public MainDbRepositoryMock()
+        public ProductsRepositoryMock()
         {
             products = SeedProducts(150);
         }

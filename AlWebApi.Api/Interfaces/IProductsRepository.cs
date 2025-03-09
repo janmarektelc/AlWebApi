@@ -3,9 +3,9 @@
 namespace AlWebApi.Api.Interfaces
 {
     /// <summary>
-    /// Main database repository.
+    /// Products repository.
     /// </summary>
-    public interface IMainDbRepository
+    public interface IProductsRepository
     {
         /// <summary>
         /// Gets a product by its id.

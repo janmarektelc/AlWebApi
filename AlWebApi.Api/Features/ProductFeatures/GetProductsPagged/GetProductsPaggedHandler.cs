@@ -8,9 +8,9 @@ namespace AlWebApi.Api.Features.ProductFeatures.GetProductsPagged
     public class GetProductsPaggedHandler : IRequestHandler<GetProductsPaggedCommand, IEnumerable<ProductDto>?>
     {
         private readonly ILogger<GetProductsPaggedHandler> logger;
-        private readonly IMainDbRepository mainRepository;
+        private readonly IProductsRepository mainRepository;
 
-        public GetProductsPaggedHandler(ILogger<GetProductsPaggedHandler> logger, IMainDbRepository mainRepository)
+        public GetProductsPaggedHandler(ILogger<GetProductsPaggedHandler> logger, IProductsRepository mainRepository)
         {
             this.logger = logger;
             this.mainRepository = mainRepository;

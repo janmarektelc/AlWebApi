@@ -45,7 +45,7 @@ namespace AlWebApi.Api
 
             if (useMockData)
             {
-                builder.Services.AddSingleton<IMainDbRepository, MainDbRepositoryMock>();
+                builder.Services.AddSingleton<IProductsRepository, ProductsRepositoryMock>();
             }
             else
             {
@@ -53,7 +53,7 @@ namespace AlWebApi.Api
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("MainDbConnection"));
                 });
-                builder.Services.AddTransient<IMainDbRepository, MainDbRepository>();
+                builder.Services.AddTransient<IProductsRepository, PrudctsRepository>();
                 builder.Services.AddTransient<DbInitialiser>();
             }
 

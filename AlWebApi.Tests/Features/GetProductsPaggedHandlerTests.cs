@@ -14,7 +14,7 @@ namespace AlWebApi.Tests.Features
         private readonly GetProductsPaggedHandler handler;
         public GetProductsPaggedHandlerTests()
         {
-            handler = new GetProductsPaggedHandler(A.Fake<ILogger<GetProductsPaggedHandler>>(), new MainDbRepositoryMock());
+            handler = new GetProductsPaggedHandler(A.Fake<ILogger<GetProductsPaggedHandler>>(), new ProductsRepositoryMock());
         }
 
         [TestMethod]

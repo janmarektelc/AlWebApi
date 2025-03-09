@@ -8,9 +8,9 @@ namespace AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription
     public class UpdateProductDescriptionHandler : IRequestHandler<UpdateProductDescriptionCommand, ProductDto?>
     {
         private readonly ILogger<UpdateProductDescriptionHandler> logger;
-        private readonly IMainDbRepository mainRepository;
+        private readonly IProductsRepository mainRepository;
 
-        public UpdateProductDescriptionHandler(ILogger<UpdateProductDescriptionHandler> logger, IMainDbRepository mainRepository)
+        public UpdateProductDescriptionHandler(ILogger<UpdateProductDescriptionHandler> logger, IProductsRepository mainRepository)
         {
             this.logger = logger;
             this.mainRepository = mainRepository;
