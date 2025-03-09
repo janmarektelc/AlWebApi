@@ -1,6 +1,7 @@
 ﻿using AlWebApi.Api;
 using AlWebApi.Api.Features.ProductFeatures.GetProductsPagged;
 using AlWebApi.Api.Repositories;
+using AlWebApi.Tests.Helpers;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ namespace AlWebApi.Tests.Features
         private readonly GetProductsPaggedHandler handler;
         public GetProductsPaggedHandlerTests()
         {
-            handler = new GetProductsPaggedHandler(A.Fake<ILogger<GetProductsPaggedHandler>>(), new ProductsRepositoryMock());
+            handler = new GetProductsPaggedHandler(A.Fake<ILogger<GetProductsPaggedHandler>>(), new ProductsRepositoryMock(), AutoMapperHelper.CreateMapper());
         }
 
         [TestMethod]

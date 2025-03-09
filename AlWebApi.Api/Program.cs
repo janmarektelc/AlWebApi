@@ -57,6 +57,8 @@ namespace AlWebApi.Api
                 builder.Services.AddTransient<DbInitialiser>();
             }
 
+            builder.Services.AddAutoMapper(typeof(Program));
+
             builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         }
 
@@ -74,6 +76,7 @@ namespace AlWebApi.Api
                         options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
                 });
+                
             }
 
             //app.UseAuthorization();

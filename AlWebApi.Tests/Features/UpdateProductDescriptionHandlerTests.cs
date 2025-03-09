@@ -1,6 +1,7 @@
 ﻿using AlWebApi.Api.Features.ProductFeatures.UpdateProductDescription;
 using AlWebApi.Api.Interfaces;
 using AlWebApi.Api.Repositories;
+using AlWebApi.Tests.Helpers;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -12,12 +13,12 @@ namespace AlWebApi.Tests.Features
     public class UpdateProductDescriptionHandlerTests
     {
         private readonly UpdateProductDescriptionHandler handler;
-        private readonly IProductsRepository mainRepository;
+        private readonly IProductsRepository productsRepository;
 
         public UpdateProductDescriptionHandlerTests()
         {
-            mainRepository = new ProductsRepositoryMock();
-            handler = new UpdateProductDescriptionHandler(A.Fake<ILogger<UpdateProductDescriptionHandler>>(), mainRepository);
+            productsRepository = new ProductsRepositoryMock();
+            handler = new UpdateProductDescriptionHandler(A.Fake<ILogger<UpdateProductDescriptionHandler>>(), productsRepository, AutoMapperHelper.CreateMapper());
         }
 
         [TestMethod]
@@ -30,7 +31,7 @@ namespace AlWebApi.Tests.Features
             result.Id.Should().Be(3);
             result.Description.Should().Be(newProductDescription);
 
-            var product = await mainRepository.GetProductById(productToChangeId, default);
+            var product = await productsRepository.GetProductById(productToChangeId, default);
             product.Should().NotBeNull();
             product!.Description.Should().Be(newProductDescription);
         }
@@ -44,7 +45,7 @@ namespace AlWebApi.Tests.Features
             result.Id.Should().Be(3);
             result.Description.Should().Be(null);
 
-            var product = await mainRepository.GetProductById(productToChangeId, default);
+            var product = await productsRepository.GetProductById(productToChangeId, default);
             product.Should().NotBeNull();
             product!.Description.Should().Be(null);
         }

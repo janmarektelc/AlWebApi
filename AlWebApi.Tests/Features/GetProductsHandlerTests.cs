@@ -1,5 +1,6 @@
 ﻿using AlWebApi.Api.Features.ProductFeatures.GetProducts;
 using AlWebApi.Api.Repositories;
+using AlWebApi.Tests.Helpers;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ namespace AlWebApi.Tests.Features
 
         public GetProductsHandlerTests()
         {
-            handler = new GetProductsHandler(A.Fake<ILogger<GetProductsHandler>>(), new ProductsRepositoryMock());
+            handler = new GetProductsHandler(A.Fake<ILogger<GetProductsHandler>>(), new ProductsRepositoryMock(), AutoMapperHelper.CreateMapper());
         }
 
         [TestMethod]
